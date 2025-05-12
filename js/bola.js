@@ -84,7 +84,7 @@ class Bola extends Rectangle {
        
         
       
-     /********************************* 
+     /********************************* M 
      * Tasca. Mètode que utilitza un objecte SEGMENT
      * i el seu mètode INTERSECCIOSEGMENTRECTANGLE per determinar
      * a quina vora del rectangle s'ha produït la col·lisió
@@ -95,17 +95,38 @@ class Bola extends Rectangle {
      * -El punt d'intersecció
      * -El costat de la pala on s'ha donat la col·lisió
      * -Un identificador de quina pala ha col.lisionat
-    **********************************/ 
+    **********************************/
 
-    revisaXocPales(segmentTrajectoria,palaJugador, palaOrdinador){
+     revisaXocPales(segmentTrajectoria, palaJugador, palaOrdinador) {
+        let interseccioJugador = segmentTrajectoria.interseccioSegmentRectangle(palaJugador);
+        if (interseccioJugador) {
+            return {
+                pI: interseccioJugador.pI,
+                vora: interseccioJugador.vora,
+                pala: "jugador"
+            };
+        }
+        let interseccioOrdinador = segmentTrajectoria.interseccioSegmentRectangle(palaOrdinador);
+         if (interseccioOrdinador) {
+             return {
+            pI: interseccioOrdinador.pI,
+            vora: interseccioOrdinador.vora,
+            pala: "màquina"
+        };
+    }
+
+            return null; // No hi ha xoc amb cap pala
+        }
+
+    /*revisaXocPales(segmentTrajectoria,palaJugador, palaOrdinador){
         let PuntVora 
         
         return PuntVora;
        
 
-    }
+    */}
 
    
 
   
-}
+

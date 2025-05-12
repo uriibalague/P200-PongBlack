@@ -1,18 +1,23 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Special+Gothic+Expanded+One&display=swap'); */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap');
 
 * {
 	box-sizing: border-box;
 }
 
 body {
-	background-color: #0e0e0e;;
-	font-family: helvetica;
+	background-color: #0e0e0e;
+    /* font-family: "Special Gothic Expanded One", sans-serif;
+    font-weight: 400;
+    font-style: normal; - ctrl k c -*/
+    color: white;
 }
 
 .canvatable {
-    width: 800px;
-    height: 400px;  
+    width: 1000px;
+    height: 600px;  
     position: absolute;
-    margin-left: -400px;
+    margin-left: -500px;
     left: 50%;
     top: 100px; 
     border: 10px solid #5f5f5f;
@@ -20,9 +25,9 @@ body {
     background-color: #101;
     box-shadow: inset 0 2px 5px 0 rgba(50, 50, 50, 0.25);
 }
+
 .title {
     text-align: center;
-    font-size: 2rem;
     font-family: "Roboto Condensed", Arial, sans-serif;
     text-transform: uppercase;
     color: white;
@@ -50,4 +55,185 @@ body {
     left: inherit;   
 }
 
+table {
+    width: 80%;
+    margin: 20px auto;
+    border-collapse: collapse;
+    text-align: center;
+    color: white;
+    font-family: "Press Start 2P", system-ui;
+    font-size: 20px;
+}
 
+table th, table td {
+    border: 2px solid white;
+    padding: 10px;
+}
+
+table th {
+    background-color: #333;
+    color: #8c00ff;
+}
+
+table tr:nth-child(even) {
+    background-color: #222;
+}
+
+table tr:nth-child(odd) {
+    background-color: #111;
+}
+
+.inicial{
+    justify-content: center;
+    place-items: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 60vh;
+}
+
+.inicial h1{
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 600px;
+    font-size: 100px;
+    font-style: normal;
+}
+
+.inicial p{
+    font-family: "Press Start 2P", system-ui;
+    font-weight: 600px;
+    font-size: 20px;
+    font-style: normal;
+}
+
+.icono-mostrar {
+    display: inline;
+  }
+  .icono-ocultar {
+    display: none;
+  }
+
+button {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 1.5rem;
+    cursor: pointer;
+    position: absolute;
+}
+
+#musica {
+    top: 10px;
+    left: 10px;
+}
+
+#esborrar {
+    top: 10px;
+    right: 10px;
+}
+
+#configuracio {
+    bottom: 10px;
+    left: 10px;
+}
+
+#ajuda {
+    bottom: 10px;
+    right: 10px;
+}
+
+button i {
+    margin: 0 5px;
+}
+
+button:hover {
+    color: #ffcc00;
+}
+
+.popup {
+    position: fixed;
+    font-family: 'Courier New', Courier, monospace;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 9999;
+    width: 400px;
+    height: 600px;
+    background-color: #000;
+    border-radius: 20px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    border: 2px solid #615bdf;
+    box-shadow:
+        0 0 10px #5e19ff,
+        0 0 20px #5e19ff,
+        0 0 40px #5e19ff,
+        0 0 80px #5e19ff;
+}
+
+h2 {
+    margin: 0;
+    text-align: center;
+    color: white;
+}
+
+.visualitzador {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 20px 0;
+}
+
+.colorspilota, .wallpapers {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap;
+    margin: 10px 0;
+}
+
+.ball {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    border: 2px solid white;
+    transition: border 0.2s;
+}
+
+.ball:hover {
+    border-color: black;
+}
+
+.color-picker {
+    appearance: none;
+    border: none;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    cursor: pointer;
+    background: linear-gradient(45deg, #aaa, #fff);
+}
+
+.wallpapers {
+    display: grid;
+    grid-template-columns: repeat(5, 1fr);
+    grid-gap: 10px;
+    margin-top: 20px;
+    padding: 10px;
+}
+
+.blur-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    backdrop-filter: blur(8px);
+    background-color: rgba(0, 0, 0, 0.4); /* semitransparente oscuro */
+    z-index: 9998;
+  }

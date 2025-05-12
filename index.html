@@ -5,24 +5,155 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/style.css">
-    <title>Document</title>
+    <link rel="stylesheet" href="css/fontawesome.css">
+    <script src="https://kit.fontawesome.com/7ec765e18c.js" crossorigin="anonymous"></script>
+    <title>P200 - Pong</title>
 </head>
 <body>
+    <div id="blur-overlay" class="blur-overlay" style="display: none;"></div>
     <div id="container">
         <div id="menu">
-            <!--Nom jugador, Configuració del joc, rànquing de records-->>    
+            <div class="inicial">
+                <button id="musica">
+                    <i class="fa-solid fa-volume-high icono-mostrar"></i>
+                    <i class="fa-sharp fa-solid fa-volume-xmark icono-ocultar" style="display: none;"></i>
+                  </button>
+                  
+                  <button id="esborrar">
+                    <i class="fa-solid fa-broom icono-mostrar"></i>
+                    <i class="fa-solid fa-circle-check icono-ocultar" style="display: none;"></i>
+                  </button>
+                <button id="configuracio">
+                    <i class="fa-solid fa-gear fa-flip-both" style="color: #ffffff;"></i>
+                    <!-- que abra el menú de configuracion del escenario -->
+                </button>
+                <button id="ajuda">
+                    <i class="fa-solid fa-info" style="color: #ffffff;"></i>
+                    <!-- que abra popup con texto -->
+                </button>
+                <h1>ping pong</h1>
+                <br><br>
+                <p>¡PRESS SPACE TO START!</p>
+                
+                <table>
+                    <th>Name</th><th>Score</th><th>Time</th><th>Level</th>
+                    
+                </table>
+            </div>
+            <div class="popup" style="display: none;">
+                <h2>Personalitza l'escenari</h2>
+                <div class="visualitzador">
+                    <canvas></canvas>
+                </div>
+                
+                <div class="colorspilota">
+
+                </div>
+                _________________
+                <div class="wallpapers">
+
+                </div>
+            </div>
         </div> 
-        <div id="display">
+        <div id="display" style="display: none;">
             <h1 class="title">Joc del Pong</h1>
             <div class="score" id="score-jugador1">0</div>
-            <div class="score" id="score-jugador2">0</div>   
+            <div class="score" id="score-jugador2">0</div>
         </div>  
-        <div id="divjoc">
+        <div id="divjoc" style="display: none;">
             <canvas id="joc" class="canvatable"></canvas>    
         </div>    
             
     </div>
 </body>
+    
+<script>
+    document.addEventListener('keydown', function (event) {
+  if (event.code === 'Space') {
+    const menu = document.getElementById('menu');
+    if (menu) {
+      menu.style.display = 'none';
+    }
+
+    const display = document.getElementById('display');
+    if (display) {
+      display.style.display = 'block';
+    }
+
+    const divjoc = document.getElementById('divjoc');
+    if (divjoc) {
+      divjoc.style.display = 'block';
+    }
+
+    // Opcional: prevenir scroll cuando se presiona espacio
+    event.preventDefault();
+  }
+});
+
+
+    document.getElementById('musica').addEventListener('click', function () {
+        const volumeIcons = this.querySelectorAll('i');
+        volumeIcons.forEach(icon => icon.classList.toggle('hidden'));
+        console.log('Botón de música presionado');
+    });
+
+    document.getElementById('esborrar').addEventListener('click', function () {
+        console.log('Botón de borrar presionado');
+    });
+
+    document.getElementById('configuracio').addEventListener('click', function () {
+    const popup = document.querySelector('.popup');
+    const blur = document.getElementById('blur-overlay');
+
+    if (popup.style.display === 'none' || popup.style.display === '') {
+        popup.style.display = 'block';
+        blur.style.display = 'block';
+    } else {
+        popup.style.display = 'none';
+        blur.style.display = 'none';
+    }
+});
+
+
+    document.getElementById('ajuda').addEventListener('click', function () {
+        alert('Aquest és un joc de Pong. Utilitza les tecles per controlar la pala i marcar punts contra el teu oponent.');
+        console.log('Botón de ayuda presionado');
+    });
+
+    const botonMusica = document.getElementById('musica');
+  const iconoVolumenOn = botonMusica.querySelector('.fa-volume-high');
+  const iconoVolumenOff = botonMusica.querySelector('.fa-volume-xmark');
+
+  botonMusica.addEventListener('click', () => {
+    const volumenOnVisible = iconoVolumenOn.style.display !== 'none';
+    if (volumenOnVisible) {
+      iconoVolumenOn.style.display = 'none';
+      iconoVolumenOff.style.display = 'inline';
+    } else {
+      iconoVolumenOn.style.display = 'inline';
+      iconoVolumenOff.style.display = 'none';
+    }
+  });
+
+  // Limpiar caché
+  const botonEsborrar = document.getElementById('esborrar');
+  const iconoBroom = botonEsborrar.querySelector('.fa-broom');
+  const iconoCheck = botonEsborrar.querySelector('.fa-circle-check');
+
+  botonEsborrar.addEventListener('click', () => {
+    // Mostrar el check y ocultar la escoba
+    iconoBroom.style.display = 'none';
+    iconoCheck.style.display = 'inline';
+
+    // Volver a mostrar la escoba después de 3 segundos
+    setTimeout(() => {
+      iconoCheck.style.display = 'none';
+      iconoBroom.style.display = 'inline';
+    }, 3000);
+  });
+
+  
+</script>
 
 <script src="js/jquery-3.7.1.js"></script>
 <script src="js/punt.js"></script>
