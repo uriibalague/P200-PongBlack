@@ -70,15 +70,44 @@ class Segment{
                 voraI = "superior";
             }
         }
-        /********************************* 
+        /********************************* FET M
          * Tasca. Replicar la identificació del punt 
          * d'intersecció per a cada vora
         **********************************/
-        //vora inferior
+        puntI = this.puntInterseccio(segmentVoraInferior);
+        if (puntI){
+            //distancia entre dos punts, el punt inicial del segment i el punt d'intersecció
+            distanciaI = Punt.distanciaDosPunts(this.puntA,puntI);
+            if (distanciaI < distanciaIMin){
+                distanciaIMin = distanciaI;
+                puntIMin = puntI;
+                voraI = "inferior";
+            }
+        }
         
         //vora esquerra
+        puntI = this.puntInterseccio(segmentVoraEsquerra);
+        if (puntI){
+            //distancia entre dos punts, el punt inicial del segment i el punt d'intersecció
+            distanciaI = Punt.distanciaDosPunts(this.puntA,puntI);
+            if (distanciaI < distanciaIMin){
+                distanciaIMin = distanciaI;
+                puntIMin = puntI;
+                voraI = "esquerra";
+            }
+        }
         
         //vora dreta
+        puntI = this.puntInterseccio(segmentVoraDreta);
+        if (puntI){
+            //distancia entre dos punts, el punt inicial del segment i el punt d'intersecció
+            distanciaI = Punt.distanciaDosPunts(this.puntA,puntI);
+            if (distanciaI < distanciaIMin){
+                distanciaIMin = distanciaI;
+                puntIMin = puntI;
+                voraI = "dreta";
+            }
+        }
        
 
         if(voraI){
@@ -86,10 +115,8 @@ class Segment{
             //hem xocat (dreta, esquerra, superior, inferior)
             return {pI: puntIMin, vora: voraI};
         }
+        return null; 
     }
-
-
-
 
      //retorna un punt d'intersecció entre dos segments. Null si no existeix
      puntInterseccio(segment){

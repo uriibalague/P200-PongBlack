@@ -4,14 +4,11 @@ class Joc{
         this.myCtx = myCtx;
         this.amplada = myCanvas.width;
         this.alcada = myCanvas.height;
-        this.palaE = new Pala ();
-        this.palaD = palaD;
-        this.bola = bola;
-        this.palaE = new Pala (new Punt (0+2, myCanvas.height/2-20/2),3,20);//2 marge
-        this.palaD = new Pala (new Punt (myCanvas.width-2-3, myCanvas.height/2-20/2),3,20); //-3 pq amplada pala
-        this.bola = new Bola (new Punt (myCanvas.width/2, myCanvas.height/2),5,5);
+        this.palaE = new Pala (new Punt (4,myCanvas.height/2-13),4,26);//2 marge - per mides variables? millor q constants (26)
+        this.palaD = new Pala (new Punt (myCanvas.width-4-3, myCanvas.height/2-13),4,26); //-3 pq amplada pala
+        this.bola = new Bola (new Punt (myCanvas.width/2, myCanvas.height/2),7,7);
 
-        //Elements del joc - FET CARLA
+        //Elements del joc - FET CARLA - revisar
         /********************************* 
          * Tasca. Crear els elements del joc
          * Pales, bola, etc
@@ -71,7 +68,7 @@ class Joc{
             
         });
 
-        /*********************************- FET CARLA
+        /********************************* - FET CARLA
          * Tasca. Dibuixar inicialment els elements del joc
          * al canva: Pales, bola, etc
         **********************************/
@@ -82,31 +79,29 @@ class Joc{
     }
 
     update(){
-          /********************************* M
+          /********************************* M 
          * Tasca. Actualitzar les posicions 
          * dels elements del joc
          * al canva: Pales, bola, etc
-        **********************************/     
-          this.bola.actualitza();              
-          this.palaJugador.actualitza();      
-          this.palaOrdinador.actualitza();     
-        
-          let segment = this.bola.getSegment(); 
-          let xocPala = this.bola.revisaXocPales(segment, this.palaJugador, this.palaOrdinador);
-          if (xocPala !== null) {
-            this.bola.gestionaRebot(xocPala); 
-          }
+        **********************************/                
+          this.palaD.update(this.key, this.alcada);      
+          this.palaE.updateAuto(this.alcada);
+          this.bola.update(this.amplada, this.alcada, this.palaE, this.palaD);        
          
         this.draw();
     }
 
     draw(){
         this.clearCanvas();
-        /********************************* 
+        /********************************* - FET CARLA
          * Tasca. Dibuixar els elements del joc
          * al canva, un cop actualitzades
          * les seves posicions: Pales, bola, etc
         **********************************/  
+       this.bola.draw(this.myCtx);
+       this.palaD.draw(this.myCtx);
+       this.palaE.draw(this.myCtx);
+
         
     }
     //Neteja el canvas

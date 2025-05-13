@@ -1,22 +1,28 @@
 class Bola extends Rectangle {
     constructor(puntPosicio, amplada, alcada) {
         super(puntPosicio, amplada, alcada);       
-        this.velocitatx = 2;
-        this.velocitaty = 2;
-        this.colorCercle = "#eee";
+        this.velocitatx = 1;
+        this.velocitaty = 1;
+        this.color = "#eee";
        
     };
     mou(mouX,mouY){
-        this.puntPosicio.x += x;
-        this.puntPosicio.y += y;
+        this.puntPosicio.x += mouX;
+        this.puntPosicio.y += mouY;
     }
 
     update(ampleCanva, altCanva, palaJugador, palaOrdinador){
     /********************************* 
-     * Tasca. Actualitzar la posició de la bola tenin en compte
+     * Tasca. Actualitzar la posició de la bola tenin en  compte
      * Si xoca o no amb els marges del canvas
      * Si xoca o no amb les pales dels jugadors 
     **********************************/  
+        //falta draw rectangle
+         //flta mou - puntx+velx, punty+vely
+         //
+         //mirar practica qaudrat
+         
+
     /********************************* 
      * Identifica el punt actual
      * Defineix el punt següent. On ha d'anar la bola
@@ -27,15 +33,20 @@ class Bola extends Rectangle {
      * Revisar si xoca amb una Pala
      * Si xoca, canviar el sentit en funció de si ha xocar
      * a dreta, esquerra, a dalt o a baix de la pala
-     * canviar el sentit en funció d'on ha xocat i sortir
-    **********************************/  
+     * canviar el sentit en ió d'on ha xocat i sortir
+     * FET M *********************************/  
         let xoc = false; 
-        let segmentTrajectoria;
+        let puntActual = new Punt(this.puntPosicio.x, this.puntPosicio.y);
+        let puntSeguent = new Punt(this.puntPosicio.x + this.velocitatx, this.puntPosicio.y + this.velocitaty);
+        let segmentTrajectoria = new Segment(puntActual, puntSeguent);
      /********************************* 
      * Tasca. Revisar si xoca amb tots els marges del canva 
-    **********************************/ 
-        xoc = revisaXocTop(segmentTrajectoria);
-        if(!xoc){
+     * COMENÇAT M - REVISAR*********************************/ 
+        // xoc = this.revisaXocTop(segmentTrajectoria);
+        // if(!xoc) xoc = this.revisaXocInferior(segmentTrajectoria, altCanva); 
+        // if(!xoc) xoc = this.revisaXocEsquerra(segmentTrajectoria); 
+        // if(!xoc) xoc = this.revisaXocDreta(segmentTrajectoria, ampleCanva); 
+    {
               /********************************* 
              * Tasca. Revisar si xoca amb alguna pala i 
              * en quina vora de la pala xoca 
@@ -86,7 +97,7 @@ class Bola extends Rectangle {
       
      /********************************* M 
      * Tasca. Mètode que utilitza un objecte SEGMENT
-     * i el seu mètode INTERSECCIOSEGMENTRECTANGLE per determinar
+     * i el seu  INTERSECCIOSEGMENTRECTANGLE per determinar
      * a quina vora del rectangle s'ha produït la col·lisió
      * i quin ha sigut el punt d'intersecció
      * Complemem la informació retornada amb la identificació

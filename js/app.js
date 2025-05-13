@@ -6,12 +6,12 @@ $(function(){
     let myCanvas = $("#joc")[0];
     let myCtx = myCanvas.getContext("2d");
 
-    /********************************* - COMENÇAT CARLA
+    /********************************* - COMENÇAT CARLA - revisar
      * Tasca. Inicialitza la classe JOC les posicions 
      * dels elements del joc
      * al canva: Pales, bola, etc
     **********************************/  
-   this.joc = new Joc(myCanvas, myCtx);
+    joc = new Joc(myCanvas, myCtx);
     joc.inicialitza();
     animacio();
 
@@ -66,7 +66,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 function selectColor(color) {
-    console.log('Color seleccionado:', color);
+    console.log('Color seleccionat:', color);
 }
 
 document.addEventListener('DOMContentLoaded', function () {
