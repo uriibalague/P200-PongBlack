@@ -1,8 +1,8 @@
 class Bola extends Rectangle {
     constructor(puntPosicio, amplada, alcada) {
         super(puntPosicio, amplada, alcada);       
-        this.velocitatx = 1;
-        this.velocitaty = 1;
+        this.velocitatx = 0.5;
+        this.velocitaty = 0.5;
         this.color = "#eee";
        
     };
@@ -16,13 +16,9 @@ class Bola extends Rectangle {
      * Tasca. Actualitzar la posició de la bola tenin en  compte
      * Si xoca o no amb els marges del canvas
      * Si xoca o no amb les pales dels jugadors 
-    **********************************/  
-        //falta draw rectangle
-         //flta mou - puntx+velx, punty+vely
-         //
-         //mirar practica qaudrat
-         
+    ********************************** JA HO MIREM EN UN ALTRE METODE*/                         
 
+         
     /********************************* 
      * Identifica el punt actual
      * Defineix el punt següent. On ha d'anar la bola
@@ -39,14 +35,15 @@ class Bola extends Rectangle {
         let puntActual = new Punt(this.puntPosicio.x, this.puntPosicio.y);
         let puntSeguent = new Punt(this.puntPosicio.x + this.velocitatx, this.puntPosicio.y + this.velocitaty);
         let segmentTrajectoria = new Segment(puntActual, puntSeguent);
+
      /********************************* 
-     * Tasca. Revisar si xoca amb tots els marges del canva 
+     * Tasca. Revisar si xoca amb tots els marges del canva
      * COMENÇAT M - REVISAR*********************************/ 
-        // xoc = this.revisaXocTop(segmentTrajectoria);
-        // if(!xoc) xoc = this.revisaXocInferior(segmentTrajectoria, altCanva); 
-        // if(!xoc) xoc = this.revisaXocEsquerra(segmentTrajectoria); 
-        // if(!xoc) xoc = this.revisaXocDreta(segmentTrajectoria, ampleCanva); 
-    {
+         xoc = this.revisaXocTop(segmentTrajectoria);
+         if(!xoc) xoc = this.revisaXocInferior(segmentTrajectoria, altCanva);
+         if(!xoc) xoc = this.revisaXocEsquerra(segmentTrajectoria); 
+         if(!xoc) xoc = this.revisaXocDreta(segmentTrajectoria, ampleCanva); 
+    
               /********************************* 
              * Tasca. Revisar si xoca amb alguna pala i 
              * en quina vora de la pala xoca 
@@ -54,24 +51,50 @@ class Bola extends Rectangle {
             let xocPala = this.revisaXocPales(segmentTrajectoria,palaJugador, palaOrdinador);
             if(xocPala){
                 xoc = true;
+            
                  /********************************* 
                  * Tasca. Si xoca amb alguna pala 
                  * canviar el sentit en funció de si ha xocar
                 * a dreta, esquerra, a dalt o a baix de la pala 
                 * Poder heu de tenir en compte en quina pala s'ha produït el xoc
-                **********************************/ 
-                  switch(xocPala.vora){ 
-                    case "vora??": //un case per cada situació
-                        break; 
-                    }
-                }  
+                **********************************/ //FET URI
+
+                if (xocPala.vora === "vorasuperior??") {
+                    // Si xoca a la vora superior de la pala
+                    this.velocitaty = -this.velocitaty;
+                    this.puntPosicio.y = xocPala.pI.y - this.alcada;
+                } else if (xocPala.vora === "vorainferior??") {
+                    // Si xoca a la vora inferior de la pala 
+                    this.velocitaty = -this.velocitaty;
+                    this.puntPosicio.y = xocPala.pI.y + this.alcada;                    
+                } else if (xocPala.vora === "voraesquerra??") {
+                    // Si xoca a la vora esquerra de la pala
+                    this.velocitatx = -this.velocitatx;
+                    this.puntPosicio.x = xocPala.pI.x - this.amplada;
+                } else if (xocPala.vora === "voradreta??") {
+                    // Si xoca a la vora dreta de la pala
+                    this.velocitatx = -this.velocitatx;
+                    this.puntPosicio.x = xocPala.pI.x + this.amplada;
+                }
         }
         if(!xoc){
-            //Si no hi ha xoc és mou on pertoca
+            // Si no hi ha xoc, actualitzem la posició de la bola
+            this.mou(this.velocitatx, this.velocitaty);
+            // Actualitzem la posició de la bola al punt següent
             this.puntPosicio.x = segmentTrajectoria.puntB.x;
             this.puntPosicio.y = segmentTrajectoria.puntB.y;
-         }
-    }
+        } else {
+            // Si hi ha xoc, actualitzem la posició de la bola a la posició d'intersecció i canviem velocitat
+            this.velocitatx = -this.velocitatx;
+            this.velocitaty = -this.velocitaty;
+            // Actualitzem la posició de la bola al punt d'intersecció
+            this.puntPosicio.x = xocPala.pI.x;
+            this.puntPosicio.y = xocPala.pI.y;
+            // Actualitzem la posició de la bola al punt d'intersecció
+            this.puntPosicio.x = segmentTrajectoria.puntB.x;
+            this.puntPosicio.y = segmentTrajectoria.puntB.y;
+        };
+    };
 
     /********************************* 
      * Tasca. Mètode que utilitza un objecte SEGMENT
@@ -81,7 +104,7 @@ class Bola extends Rectangle {
      * Com a paràmetre accepta un SEGMENT que heu de crear anteriorment
      * Cal fer un mètode per cada lateral que manca: esquerra, dret i inferior
      * El el cas dels laterals caldrà assignar puntuació i reiniciar un nou joc
-    **********************************/        
+    **********************************/ // FET CARLA  - REVISAR      
         
         revisaXocTop(segmentTrajectoria){
             if(segmentTrajectoria.puntB.y <0){
@@ -91,11 +114,37 @@ class Bola extends Rectangle {
                 this.velocitaty = -this.velocitaty;
                 return true;
             }
-        }
-       
+        };
+
+        revisaXocInferior(segmentTrajectoria, altCanva){
+            if(segmentTrajectoria.puntB.y > altCanva){
+                let exces = (segmentTrajectoria.puntB.y)/this.velocitaty;
+                this.puntPosicio.x = segmentTrajectoria.puntB.x - exces*this.velocitatx;
+                this.puntPosicio.y = altCanva;
+                this.velocitaty = -this.velocitaty;
+                return true;
+            }
+        };
         
-      
-     /********************************* M 
+        //canviar reiniciar
+        revisaXocEsquerra(segmentTrajectoria){
+            if(segmentTrajectoria.puntB.x < 0){
+                //torna a posar al centre la bola
+                //puntuacions
+                return true;
+            }
+        };
+
+        revisaXocDreta(segmentTrajectoria) {
+            if (segmentTrajectoria.puntB.x > this.amplada) {
+                //torna a posar al centre la bola
+                //puntuacions
+                return true;
+            }
+        };
+            
+    
+     /********************************* FET M 
      * Tasca. Mètode que utilitza un objecte SEGMENT
      * i el seu  INTERSECCIOSEGMENTRECTANGLE per determinar
      * a quina vora del rectangle s'ha produït la col·lisió
@@ -108,7 +157,7 @@ class Bola extends Rectangle {
      * -Un identificador de quina pala ha col.lisionat
     **********************************/
 
-     revisaXocPales(segmentTrajectoria, palaJugador, palaOrdinador) {
+    revisaXocPales(segmentTrajectoria, palaJugador, palaOrdinador) {
         let interseccioJugador = segmentTrajectoria.interseccioSegmentRectangle(palaJugador);
         if (interseccioJugador) {
             return {
@@ -118,26 +167,17 @@ class Bola extends Rectangle {
             };
         }
         let interseccioOrdinador = segmentTrajectoria.interseccioSegmentRectangle(palaOrdinador);
-         if (interseccioOrdinador) {
-             return {
-            pI: interseccioOrdinador.pI,
-            vora: interseccioOrdinador.vora,
-            pala: "màquina"
-        };
-    }
-
+        if (interseccioOrdinador) {
+            return {
+                pI: interseccioOrdinador.pI,
+                vora: interseccioOrdinador.vora,
+                pala: "màquina"
+            };
+        }
+        // Si no hi ha intersecció amb cap pala, retornem null
+        // o un objecte amb informació per identificar que no hi ha xoc
             return null; // No hi ha xoc amb cap pala
         }
-
-    /*revisaXocPales(segmentTrajectoria,palaJugador, palaOrdinador){
-        let PuntVora 
         
-        return PuntVora;
-       
-
-    */}
-
-   
-
-  
-
+}
+    

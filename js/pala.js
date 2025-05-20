@@ -37,7 +37,7 @@ class Pala extends Rectangle{
          * automàtica en moviment constant 
          * o amb variacions aleatories
         **********************************/
-       //update?
+       //update? - el 20?
        if (this.puntPosicio.y + this.velocitatY + this.alcada >= alcada || this.puntPosicio.y + this.velocitatY + this.alcada - 20 <= 0){
         this.velocitatY = -this.velocitatY;
        }

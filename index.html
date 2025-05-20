@@ -16,11 +16,11 @@
     <div id="container">
 
         <audio id="background-music" loop autoplay>
-            <source src="/media/loop-music.mp3" type="audio/mp3">
+            <source src="media/loop-music.mp3" type="audio/mp3">
             El teu navegador no suporta l'audio HTML5
         </audio>
         <video id="background-video" autoplay loop muted>
-            <source src="/media/bucle.mp4" type="video/mp4">
+            <source src="media/bucle.mp4" type="video/mp4">
             El teu navegador no suporta el video HTML5
         </video>
 
@@ -78,87 +78,8 @@
     </div>
 </body>
 
-<script>
-    // Control de música
-    const backgroundMusic = document.getElementById('background-music');
-    const botonMusica = document.getElementById('musica');
-    const iconoVolumenOn = botonMusica.querySelector('.fa-volume-high');
-    const iconoVolumenOff = botonMusica.querySelector('.fa-volume-xmark');
-
-    backgroundMusic.volume = 0.2;
-    backgroundMusic.muted = false;
-    backgroundMusic.play().catch((error) => {
-        console.warn("Autoplay ha sigut bloquejat pel navegador.");
-    });
-
-    document.getElementById("game-canvas")
-
-    botonMusica.addEventListener('click', () => {
-        const isMuted = backgroundMusic.muted;
-        backgroundMusic.muted = !isMuted;
-        iconoVolumenOn.style.display = isMuted ? 'inline' : 'none';
-        iconoVolumenOff.style.display = isMuted ? 'none' : 'inline';
-    });
-
-    // Control del menú tecla SPACE
-    document.addEventListener('keydown', function (event) {
-    if (event.code === 'Space') {
-        const popup = document.getElementById('popup-config');
-        if (popup.style.display === 'none' || popup.style.display === '') {
-            document.getElementById('menu').style.display = 'none';
-            document.getElementById('display').style.display = 'block';
-            document.getElementById('divjoc').style.display = 'block';
-            event.preventDefault();
-        }
-    }
-});
-
-    // Botó esborrar
-    const botonEsborrar = document.getElementById('esborrar');
-    const iconoBroom = botonEsborrar.querySelector('.fa-broom');
-    const iconoCheck = botonEsborrar.querySelector('.fa-circle-check');
-
-    botonEsborrar.addEventListener('click', () => {
-        iconoBroom.style.display = 'none';
-        iconoCheck.style.display = 'inline';
-        setTimeout(() => {
-            iconoCheck.style.display = 'none';
-            iconoBroom.style.display = 'inline';
-        }, 3000);
-    });
-
-    // Botó configuració
-    const popup = document.getElementById('popup-config');
-    const blurOverlay = document.getElementById('blur-overlay');
-
-    document.getElementById('configuracio').addEventListener('click', function () {
-        const isVisible = popup.style.display === 'block';
-        popup.style.display = isVisible ? 'none' : 'block';
-        blurOverlay.style.display = isVisible ? 'none' : 'block';
-    });
-
-    // Tancar popup amb ESC o clic fora
-    document.addEventListener('keydown', function (event) {
-        if (event.key === "Escape" && popup.style.display === 'block') {
-            popup.style.display = 'none';
-            blurOverlay.style.display = 'none';
-        }
-    });
-
-    document.addEventListener('click', function (event) {
-        if (popup.style.display === 'block' && !popup.contains(event.target) && !event.target.closest('#configuracio')) {
-            popup.style.display = 'none';
-            blurOverlay.style.display = 'none';
-        }
-    });
-
-    // Botón ajuda
-    document.getElementById('ajuda').addEventListener('click', function () {
-        alert('Aquest és un joc de Pong. Utilitza les tecles per controlar la pala i marcar punts contra el teu oponent.');
-    });
-</script>
-
 <script src="js/jquery-3.7.1.js"></script>
+<script src="js/display.js"></script>
 <script src="js/punt.js"></script>
 <script src="js/rectangle.js"></script>
 <script src="js/segment.js"></script>
