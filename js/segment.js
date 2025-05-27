@@ -74,7 +74,7 @@ class Segment{
          * Tasca. Replicar la identificació del punt 
          * d'intersecció per a cada vora
         **********************************/
-       // voa inferior
+       // vora inferior
         puntI = this.puntInterseccio(segmentVoraInferior);
         if (puntI){
             //distancia entre dos punts, el punt inicial del segment i el punt d'intersecció

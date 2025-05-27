@@ -96,6 +96,7 @@ class Display {
             alert('Aquest és un joc de Pong. Utilitza les tecles per controlar la pala i marcar punts contra el teu oponent.');
         });
     }
+
 }
 
 // Inicializar al cargar la página

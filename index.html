@@ -47,11 +47,16 @@
                 <h1>ping pong</h1>
                 <p>¡PRESS SPACE TO START!</p>
 
-                <table>
-                    <th>Name</th>
-                    <th>Score</th>
-                    <th>Time</th>
-                    <th>Level</th>
+                <table id="taula-puntuacions">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Score</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        
+                    </tbody>
                 </table>
             </div>
 
@@ -67,6 +72,8 @@
 
         <div id="display" style="display: none;">
             <h1 class="title">Joc del Pong</h1>
+            <div class="totalscore">0</div> <!-- Cada 10pts -> velocitat= +0,2 // Max punts: 50 // Maquina  nivel facil -> <=10pts (nivel medio <=10pts >= 20pts) (nivel dificil <= 20, >=30) nivel muy dificil <= 30, >=40 nivel imposible <= 40, >=50-->
+            <div class="nivell">Fàcil</div>
             <div class="score" id="score-jugador1">0</div>
             <div class="score" id="score-jugador2">0</div>
         </div>

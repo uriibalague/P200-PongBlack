@@ -4,9 +4,10 @@ class Joc{
         this.myCtx = myCtx;
         this.amplada = myCanvas.width;
         this.alcada = myCanvas.height;
-        this.palaE = new Pala (new Punt (4,myCanvas.height/2-13),4,26);//2 marge - per mides variables? millor q constants (26)
-        this.palaD = new Pala (new Punt (myCanvas.width-4-3, myCanvas.height/2-13),4,26); //-3 pq amplada pala
-        this.bola = new Bola (new Punt (myCanvas.width/2, myCanvas.height/2),7,7);
+        this.dimensioB = 7;
+        this.palaE = new Pala (new Punt (5,this.alcada/2-14),5,28);//2 marge - per mides variables? millor q constants (28)
+        this.palaD = new Pala (new Punt (this.amplada-5-5, this.alcada/2-14),5,28); //-5 pq amplada pala
+        this.bola = new Bola (new Punt (this.amplada/2, this.alcada/2),this.dimensioB,this.dimensioB);
 
         //Elements del joc - FET CARLA - revisar
         /********************************* 
@@ -23,6 +24,8 @@ class Joc{
             DOWN: {code: 40, pressed: false},
             UP: {code: 38, pressed: false}
         }
+        this.puntuacioJugador = 0;
+        this.puntuacioMaquina = 0;
     }
     set velocitat(velocitatJoc){
         this.velocitatJoc = velocitatJoc;
@@ -67,6 +70,10 @@ class Joc{
             }
             
         });
+        window.addEventListener('DOMContentLoaded', () => {
+            window.displayInstance = new Display();
+            window.displayInstance.mostraPuntuacions();
+        });
 
         /********************************* - FET CARLA
          * Tasca. Dibuixar inicialment els elements del joc
@@ -74,7 +81,14 @@ class Joc{
         **********************************/
         this.draw();
        //Màtode de crida recursiva per generar l'animació dels objectes
+        //this.update();
+        //requestAnimationFrame(animacio);
+        // Bucle de animació correcte
+        const animacio = () => {
+        this.update();
         requestAnimationFrame(animacio);
+        };
+        animacio();
 
     }
 
@@ -86,7 +100,8 @@ class Joc{
         **********************************/                
           this.palaD.update(this.key, this.alcada);      
           this.palaE.updateAuto(this.alcada);
-          this.bola.update(this.amplada, this.alcada, this.palaE, this.palaD);        
+          // Pasar references de puntuació a la bola
+          this.bola.update(this.amplada, this.alcada, this.palaE, this.palaD, this);
          
         this.draw();
     }
@@ -102,7 +117,11 @@ class Joc{
        this.palaD.draw(this.myCtx);
        this.palaE.draw(this.myCtx);
 
-        
+        // Actualizar puntuación en pantalla
+        const scoreJugador = document.getElementById('score-jugador1');
+        const scoreMaquina = document.getElementById('score-jugador2');
+        if (scoreJugador) scoreJugador.textContent = this.puntuacioJugador;
+        if (scoreMaquina) scoreMaquina.textContent = this.puntuacioMaquina;
     }
     //Neteja el canvas
     clearCanvas(){
