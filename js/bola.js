@@ -54,16 +54,18 @@ class Bola extends Rectangle {
             if (xocPala.vora === "superior") {
                 this.velocitaty = -this.velocitaty;
                 this.puntPosicio.y = xocPala.pI.y - this.alcada;
+
             } else if (xocPala.vora === "inferior") {
                 this.velocitaty = -this.velocitaty;
-                this.puntPosicio.y = xocPala.pI.y + this.alcada;
-            } else if (xocPala.vora === "esquerra" || xocPala.vora === "dreta") {
+                this.puntPosicio.y = xocPala.pI.y;
+
+            } else if (xocPala.vora === "esquerra") {
                 this.velocitatx = -this.velocitatx;
-                if (xocPala.vora === "esquerra") {
-                    this.puntPosicio.x = xocPala.pI.x - this.amplada;
-                } else {
-                    this.puntPosicio.x = xocPala.pI.x + this.amplada;
-                }
+                this.puntPosicio.x = xocPala.pI.x - this.amplada;
+
+            } else if (xocPala.vora === "dreta") {
+                this.velocitatx = -this.velocitatx;
+                this.puntPosicio.x = xocPala.pI.x - this.amplada;
             }
             return;
         }
@@ -109,32 +111,32 @@ class Bola extends Rectangle {
         }
     };
 
-    revisaXocEsquerra(segmentTrajectoria, ampleCanva, altCanva, joc){
-    if(segmentTrajectoria.puntB.x  <= 0){
-        if (joc) {
-            joc.puntuacioMaquina++;
-            document.querySelector('.totalscore').textContent = joc.puntuacioJugador + joc.puntuacioMaquina;
+    revisaXocEsquerra(segmentTrajectoria, ampleCanva, altCanva, joc) {
+        if (segmentTrajectoria.puntB.x <= 0) {
+            if (joc) {
+                joc.puntuacioMaquina++;
+                document.querySelector('.totalscore').textContent = joc.puntuacioJugador + joc.puntuacioMaquina;
+            }
+            this.puntPosicio.x = ampleCanva / 2;
+            this.puntPosicio.y = altCanva / 2;
+            return true;
         }
-        this.puntPosicio.x = ampleCanva/2;
-        this.puntPosicio.y = altCanva/2;
-        return true;
-    }
-    return false;
-};
+        return false;
+    };
 
-revisaXocDreta(segmentTrajectoria, ampleCanva, altCanva, joc) {
-    if (segmentTrajectoria.puntB.x >= ampleCanva) {
-        if (joc) {
-            joc.puntuacioJugador++;
-            document.querySelector('.totalscore').textContent = joc.puntuacioJugador + joc.puntuacioMaquina;
+    revisaXocDreta(segmentTrajectoria, ampleCanva, altCanva, joc) {
+        if (segmentTrajectoria.puntB.x >= ampleCanva) {
+            if (joc) {
+                joc.puntuacioJugador++;
+                document.querySelector('.totalscore').textContent = joc.puntuacioJugador + joc.puntuacioMaquina;
+            }
+            this.puntPosicio.x = ampleCanva / 2;
+            this.puntPosicio.y = altCanva / 2;
+            return true;
         }
-        this.puntPosicio.x = ampleCanva/2;
-        this.puntPosicio.y = altCanva/2;
-        return true;
-    }
-    return false;
-};
-        
+        return false;
+    };
+
 
     /********************************* FET M 
     * Tasca. Mètode que utilitza un objecte SEGMENT

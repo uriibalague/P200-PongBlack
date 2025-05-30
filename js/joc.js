@@ -5,8 +5,10 @@ class Joc{
         this.amplada = myCanvas.width;
         this.alcada = myCanvas.height;
         this.dimensioB = 7;
-        this.palaE = new Pala (new Punt (5,this.alcada/2-14),5,28);//2 marge - per mides variables? millor q constants (28)
-        this.palaD = new Pala (new Punt (this.amplada-5-5, this.alcada/2-14),5,28); //-5 pq amplada pala
+        this.ampladaP = 5;
+        this.alcadaP = 28;
+        this.palaE = new Pala (new Punt (this.ampladaP,this.alcada/2-(this.alcadaP/2)),this.ampladaP,this.alcadaP);//2 marge
+        this.palaD = new Pala (new Punt (this.amplada-this.ampladaP-5, this.alcada/2-(this.alcadaP/2)),this.ampladaP,this.alcadaP); //-5 és el marge que deixem
         this.bola = new Bola (new Punt (this.amplada/2, this.alcada/2),this.dimensioB,this.dimensioB);
 
         //Elements del joc - FET CARLA - revisar
@@ -117,7 +119,7 @@ class Joc{
        this.palaD.draw(this.myCtx);
        this.palaE.draw(this.myCtx);
 
-        // Actualizar puntuación en pantalla
+        // Actualitzar puntuació en pantalla
         const scoreJugador = document.getElementById('score-jugador1');
         const scoreMaquina = document.getElementById('score-jugador2');
         if (scoreJugador) scoreJugador.textContent = this.puntuacioJugador;

@@ -55,15 +55,19 @@ class Display {
     }
 
     initBotonEsborrar() {
-        this.botonEsborrar.addEventListener('click', () => {
-            this.iconoBroom.style.display = 'none';
-            this.iconoCheck.style.display = 'inline';
-            setTimeout(() => {
-                this.iconoCheck.style.display = 'none';
-                this.iconoBroom.style.display = 'inline';
-            }, 3000);
-        });
-    }
+    this.botonEsborrar.addEventListener('click', () => {
+        localStorage.removeItem('puntuacionsPong');
+        if (typeof this.mostraPuntuacions === 'function') {
+            this.mostraPuntuacions();
+        }
+        this.iconoBroom.style.display = 'none';
+        this.iconoCheck.style.display = 'inline';
+        setTimeout(() => {
+            this.iconoCheck.style.display = 'none';
+            this.iconoBroom.style.display = 'inline';
+        }, 3000);
+    });
+}
 
     initConfiguracioPopup() {
         this.botonConfiguracio.addEventListener('click', () => {
