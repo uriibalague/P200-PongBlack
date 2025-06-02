@@ -1,79 +1,100 @@
 class Display {
     constructor() {
         this.backgroundMusic = document.getElementById('background-music');
-        this.botonMusica = document.getElementById('musica');
-        this.iconoVolumenOn = this.botonMusica.querySelector('.fa-volume-high');
-        this.iconoVolumenOff = this.botonMusica.querySelector('.fa-volume-xmark');
-
-        this.botonEsborrar = document.getElementById('esborrar');
-        this.iconoBroom = this.botonEsborrar.querySelector('.fa-broom');
-        this.iconoCheck = this.botonEsborrar.querySelector('.fa-circle-check');
-
+        this.botoMusica = document.getElementById('musica');
+        this.iconaVolumOn = this.botoMusica.querySelector('.fa-volume-high');
+        this.iconaVolumOff = this.botoMusica.querySelector('.fa-volume-xmark');
+        this.botoEsborrar = document.getElementById('esborrar');
+        this.iconaBroom = this.botoEsborrar.querySelector('.fa-broom');
+        this.iconaCheck = this.botoEsborrar.querySelector('.fa-circle-check');
         this.popup = document.getElementById('popup-config');
         this.blurOverlay = document.getElementById('blur-overlay');
-        this.botonConfiguracio = document.getElementById('configuracio');
-        this.botonAjuda = document.getElementById('ajuda');
-
+        this.botoConfiguracio = document.getElementById('configuracio');
+        this.botoAjuda = document.getElementById('ajuda');
         this.init();
     }
 
     init() {
         this.initMusica();
-        this.initTeclaSpace();
-        this.initBotonEsborrar();
-        this.initConfiguracioPopup();
-        this.initBotonAjuda();
+        this.initBotoEsborrar();
+        this.initPopupConfiguracio();
+        this.initBotoAjuda();
     }
 
     initMusica() {
-        this.backgroundMusic.volume = 0.2;
-        this.backgroundMusic.muted = false;
-
-        this.backgroundMusic.play().catch(() => {
-            console.warn("Autoplay ha sigut bloquejat pel navegador.");
-        });
-
-        this.botonMusica.addEventListener('click', () => {
-            const isMuted = this.backgroundMusic.muted;
-            this.backgroundMusic.muted = !isMuted;
-            this.iconoVolumenOn.style.display = isMuted ? 'inline' : 'none';
-            this.iconoVolumenOff.style.display = isMuted ? 'none' : 'inline';
-        });
-    }
-
-    initTeclaSpace() {
-        document.addEventListener('keydown', (event) => {
-            if (event.code === 'Space') {
-                if (this.popup.style.display === 'none' || this.popup.style.display === '') {
-                    document.getElementById('menu').style.display = 'none';
-                    document.getElementById('display').style.display = 'block';
-                    document.getElementById('divjoc').style.display = 'block';
-                    event.preventDefault();
+        let musicaOn = localStorage.getItem('pong_music') !== 'off';
+        let iniciada = false;
+        const actualitzaUI = () => {
+            if (musicaOn) {
+                this.iconaVolumOn.style.display = '';
+                this.iconaVolumOff.style.display = 'none';
+            } else {
+                this.iconaVolumOn.style.display = 'none';
+                this.iconaVolumOff.style.display = '';
+            }
+        };
+        const setEstatMusica = (on) => {
+            musicaOn = on;
+            localStorage.setItem('pong_music', on ? 'on' : 'off');
+            actualitzaUI();
+            if (this.backgroundMusic) {
+                if (on) {
+                    this.backgroundMusic.muted = false;
+                    this.backgroundMusic.volume = 0.05;
+                    this.backgroundMusic.play().catch(()=>{});
+                } else {
+                    this.backgroundMusic.pause();
                 }
             }
+        };
+        this.botoMusica.addEventListener('click', () => {
+            setEstatMusica(!musicaOn);
+        });
+        setEstatMusica(musicaOn);
+
+        const intentaReproduir = () => {
+            if (this.backgroundMusic && musicaOn && !iniciada) {
+                this.backgroundMusic.play().then(() => {
+                    iniciada = true;
+                }).catch(() => {
+                    const resume = () => {
+                        if (!iniciada && musicaOn) {
+                            this.backgroundMusic.play().then(() => { iniciada = true; }).catch(()=>{});
+                        }
+                        document.removeEventListener('keydown', resume);
+                        document.removeEventListener('mousedown', resume);
+                        document.removeEventListener('touchstart', resume);
+                    };
+                    document.addEventListener('keydown', resume, { once: true });
+                    document.addEventListener('mousedown', resume, { once: true });
+                    document.addEventListener('touchstart', resume, { once: true });
+                });
+            }
+        };
+        intentaReproduir();
+        this.backgroundMusic.volume = 0.05;
+    }
+
+    initBotoEsborrar() {
+        this.botoEsborrar.addEventListener('click', () => {
+            localStorage.removeItem('puntuacio');
+            if (typeof this.mostraPuntuacions === 'function') {
+                this.mostraPuntuacions();
+            }
+            this.iconaBroom.style.display = 'none';
+            this.iconaCheck.style.display = 'inline';
+            setTimeout(() => {
+                this.iconaCheck.style.display = 'none';
+                this.iconaBroom.style.display = 'inline';
+            }, 3000);
         });
     }
 
-    initBotonEsborrar() {
-    this.botonEsborrar.addEventListener('click', () => {
-        localStorage.removeItem('puntuacionsPong');
-        if (typeof this.mostraPuntuacions === 'function') {
-            this.mostraPuntuacions();
-        }
-        this.iconoBroom.style.display = 'none';
-        this.iconoCheck.style.display = 'inline';
-        setTimeout(() => {
-            this.iconoCheck.style.display = 'none';
-            this.iconoBroom.style.display = 'inline';
-        }, 3000);
-    });
-}
-
-    initConfiguracioPopup() {
-        this.botonConfiguracio.addEventListener('click', () => {
-            const isVisible = this.popup.style.display === 'block';
-            this.popup.style.display = isVisible ? 'none' : 'block';
-            this.blurOverlay.style.display = isVisible ? 'none' : 'block';
+    initPopupConfiguracio() {
+        this.botoConfiguracio.addEventListener('click', () => {
+            const visible = this.popup.style.display === 'block';
+            this.popup.style.display = visible ? 'none' : 'block';
+            this.blurOverlay.style.display = visible ? 'none' : 'block';
         });
 
         document.addEventListener('keydown', (event) => {
@@ -95,15 +116,85 @@ class Display {
         });
     }
 
-    initBotonAjuda() {
-        this.botonAjuda.addEventListener('click', () => {
+    initBotoAjuda() {
+        this.botoAjuda.addEventListener('click', () => {
             alert('Aquest és un joc de Pong. Utilitza les tecles per controlar la pala i marcar punts contra el teu oponent.');
         });
     }
 
+    mostraPuntuacions() {
+        const taula = document.querySelector('#taula-puntuacions tbody');
+        if (!taula) return;
+        taula.innerHTML = '';
+        const puntuacions = JSON.parse(localStorage.getItem('puntuacions')) || [];
+        puntuacions
+            .sort((a, b) => b.puntuacio - a.puntuacio)
+            .forEach(p => {
+                const fila = document.createElement('tr');
+                const ColNom = document.createElement('td');
+                const ColPuntuacio = document.createElement('td');
+                ColNom.textContent = p.nom;
+                ColPuntuacio.textContent = p.puntuacio;
+                fila.appendChild(ColNom);
+                fila.appendChild(ColPuntuacio);
+                taula.appendChild(fila);
+            });
+    }
 }
 
-// Inicializar al cargar la página
+function dibuixaPreviewPong(colorPalaE, colorPalaD, colorBola, fons) {
+    const canvas = document.getElementById('preview-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    if (fons) {
+        const img = new Image();
+        img.onload = () => {
+            ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+            dibuixaElements();
+        };
+        img.src = fons;
+    } else {
+        ctx.fillStyle = "#101";
+        ctx.fillRect(0, 0, canvas.width, canvas.height);
+        dibuixaElements();
+    }
+
+    function dibuixaElements() {
+        ctx.fillStyle = colorPalaE;
+        ctx.fillRect(10, canvas.height / 2 - 20, 8, 40);
+        ctx.fillStyle = colorPalaD;
+        ctx.fillRect(canvas.width - 18, canvas.height / 2 - 20, 8, 40);
+        ctx.fillStyle = colorBola;
+        ctx.beginPath();
+        ctx.arc(canvas.width / 2, canvas.height / 2, 7, 0, 2 * Math.PI);
+        ctx.fill();
+    }
+}
+
+dibuixaPreviewPong("#fff", "#fff", "#eee");
+
+document.getElementById('color-pala-jugador')?.addEventListener('input', () => {
+    dibuixaPreviewPong(
+        document.getElementById('color-pala-jugador').value,
+        document.getElementById('color-pala-maquina').value,
+        document.getElementById('color-bola').value
+    );
+});
+document.getElementById('color-pala-maquina')?.addEventListener('input', () => {
+    dibuixaPreviewPong(
+        document.getElementById('color-pala-jugador').value,
+        document.getElementById('color-pala-maquina').value,
+        document.getElementById('color-bola').value
+    );
+});
+document.getElementById('color-bola')?.addEventListener('input', () => {
+    dibuixaPreviewPong(
+        document.getElementById('color-pala-jugador').value,
+        document.getElementById('color-pala-maquina').value,
+        document.getElementById('color-bola').value
+    );
+});
+
 window.addEventListener('DOMContentLoaded', () => {
     new Display();
 });

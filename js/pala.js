@@ -1,9 +1,10 @@
 class Pala extends Rectangle{
-    constructor(puntPosicio, amplada, alcada){
+    constructor(puntPosicio, amplada, alcada, color = "#eee"){
         super(puntPosicio, amplada, alcada);
-        this.velocitatX = 1;
-        this.velocitatY = 1;
-        this.color = "#eee";
+        this.velocitatX = 0.2;
+        this.velocitatY = 0.2;
+        this.color = color;
+        this.velocitat = 0.2;
     }
 
     mou(x,y){
@@ -12,43 +13,30 @@ class Pala extends Rectangle{
     }
     
     update(key, alcada){
+        const vel = typeof this.velocitat !== "undefined" ? this.velocitat : this.velocitatY;
         if(key.DOWN.pressed){
-         /********************************* -FET CARLA
-         * Tasca. Definir el moviment de la pala
-         * en funció de la tecla premuda
-        **********************************/
-        if(this.puntPosicio.y + this.alcada < alcada){
-            this.mou(0,this.velocitatY);
-        }
-        else {
-             this.mou(0,-this.velocitatY);
-        }
-
+            if(this.puntPosicio.y + this.alcada < alcada){
+                this.mou(0, vel);
+            }
+            else {
+                this.mou(0, -vel);
+            }
         }
         if(key.UP.pressed){
-       /********************************* - FET CARLA
-         * Tasca. Definir el moviment de la pala
-         * en funció de la tecla premuda
-        **********************************/
-       if (this.puntPosicio.y - this.alcada + 28 > 0){
-        this.mou(0, - this.velocitatY);
-       }
-       else {
-        this.mou(0, this.velocitatY);   
-       }
+            if (this.puntPosicio.y - this.alcada + 28 > 0){
+                this.mou(0, -vel);
+            }
+            else {
+                this.mou(0, vel);   
+            }
         }
     }
     updateAuto(alcada){
-        /********************************* - FET CARLA - PREGUNTAR
-         * Tasca. Definir el moviment de la pala
-         * automàtica en moviment constant 
-         * o amb variacions aleatories
-        **********************************/
-       //update? - el -28 pq alcada pala - preguntar si esta be i si fer variable o utilitzar constants com fins ara
-       if (this.puntPosicio.y + this.velocitatY + this.alcada >= alcada || this.puntPosicio.y + this.velocitatY + this.alcada - 28 <= 0){
-        this.velocitatY = -this.velocitatY;
-       }
-        this.mou(0, this.velocitatY);
+        const vel = typeof this.velocitat !== "undefined" ? this.velocitat : this.velocitatY;
+        if (this.puntPosicio.y + vel + this.alcada >= alcada || this.puntPosicio.y + vel <= 0){
+            this.velocitat = -vel;
+        }
+        this.mou(0, this.velocitat);
     }
 
 }

@@ -46,6 +46,11 @@
 
                 <h1>ping pong</h1>
                 <p>¡PRESS SPACE TO START!</p>
+                <div class="modos-container">
+                    <button id="start-maquina" class="modo-btn selected-modo" type="button" style="position:static;">màquina
+                    </button>
+                    <button id="start-2v2" class="modo-btn" type="button" style="position:static;">1v1</button>
+                </div>
 
                 <table id="taula-puntuacions">
                     <thead>
@@ -55,33 +60,80 @@
                         </tr>
                     </thead>
                     <tbody>
-                        
+
                     </tbody>
                 </table>
             </div>
 
             <div class="popup" id="popup-config" style="display: none;">
                 <h2>Personalitza l'escenari</h2>
-                <div class="visualitzador">
-                    <canvas></canvas>
+                <div class="visualitzador" style="display:flex; flex-direction:column; align-items:center;">
+                    <canvas id="preview-canvas" width="220" height="120"
+                        style="background: #181828; border-radius: 14px; border: 2px solid #fff; box-shadow: 0 2px 12px #0008; margin-bottom:10px;"></canvas>
+                    <div style="font-size:12px;color:#aaa;">Previsualització</div>
                 </div>
-                <div class="colorspilota"></div>
-                <div class="wallpapers"></div>
+                <div class="colorspilota" style="margin-top:10px; display:flex; align-items:center; gap:18px;">
+                    <label for="color-pala-esquerra"></label>
+                    <input type="color" id="color-pala-esquerra" data-pala="esquerra" value="#ffffff" class="color-picker color-round">
+                    <label for="color-bola"></label>
+                    <input type="color" id="color-bola" value="#eeeeee" class="color-picker color-round">
+                    <label for="color-pala-dreta"></label>
+                    <input type="color" id="color-pala-dreta" data-pala="dreta" value="#ffffff" class="color-picker color-round">
+                </div>
+                <div class="wallpapers" style="width:100%;margin-top:18px;display:flex;flex-direction:column;align-items:center;">
+                    <div style="display:flex;gap:16px;justify-content:center;">
+                        <img src="media/camp-futbol.png" class="wallpaper-thumb" data-wall="media/camp-futbol.png" title="Wallpaper 1">
+                        <img src="media/basket.png" class="wallpaper-thumb" data-wall="media/basket.png" title="Wallpaper 2">
+                        <img src="media/balon.png" class="wallpaper-thumb" data-wall="media/balon.png" title="Wallpaper 3">
+                    </div>
+                </div>
+                <div class="personalitzacio-buttons" style="display:flex;flex-direction:column;align-items:center;gap:12px;margin-top:18px;width:100%;">
+                    <button id="btn-reset-personalitzacio" class="modo-btn" type="button" style="width:80%; background-color: red;">Reiniciar</button>
+                    <button id="btn-aplicar-personalitzacio" class="modo-btn" type="button" style="width:80%;background-color: green;">Aplicar</button>
+                    <button id="btn-cerrar-personalitzacio" class="modo-btn" type="button" style="width:80%;">Tancar</button>
+                </div>
             </div>
         </div>
 
         <div id="display" style="display: none;">
             <h1 class="title">Joc del Pong</h1>
-            <div class="totalscore">0</div> <!-- Cada 10pts -> velocitat= +0,2 // Max punts: 50 // Maquina  nivel facil -> <=10pts (nivel medio <=10pts >= 20pts) (nivel dificil <= 20, >=30) nivel muy dificil <= 30, >=40 nivel imposible <= 40, >=50-->
-            <div class="nivell">Fàcil</div>
             <div class="score" id="score-jugador1">0</div>
             <div class="score" id="score-jugador2">0</div>
+            
         </div>
 
         <div id="divjoc" style="display: none;">
             <canvas id="joc" class="canvatable"></canvas>
+            <div class="joc-info-bar">
+                <span class="totalscore-joc">Total Score: <span id="totalscore-joc">0</span></span>
+                <span class="nivell-joc">Nivell: <span id="nivell-joc">Fàcil</span></span>
+            </div>
+            <div class="joc-menu-btn-container">
+                <button id="menu-button-canvas" class="modo-btn" type="button">Tornar al Menú</button>
+            </div>
         </div>
 
+        <div class="gameover" style="display: none;">
+            <div class="inicial">
+                <h1>game over</h1>
+                <p><span id="guanyador"></span> ha guanyat!</p>
+                <p>Puntuació: <span id="puntuacio-final">0</span></p>
+                <p>Nivell: <span id="nivell-final">Fàcil</span></p>
+                <div id="guardar-section">
+                    <p>Nom per guardar puntuació</p>
+                    <input type="text" id="nomjugador" placeholder="Escriu el teu nom aquí" maxlength="20">
+                    <div class="gameover-buttons">
+                        <button id="guardar">Guardar Puntuació</button>
+                        <button id="menu-button">Tornar al Menú</button>
+                    </div>
+                </div>
+                <div id="menuonly-section" style="display:none;">
+                    <div class="gameover-buttons">
+                        <button id="menu-button2">Tornar al Menú</button>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 </body>
 
