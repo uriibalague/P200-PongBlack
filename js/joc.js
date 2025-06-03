@@ -417,14 +417,31 @@ class Joc{
     _drawWallpaperAndGame() {
         const img = this._wallpaperImg;
         if (!img) return this._drawGameElements();
-        const cw = this.myCanvas.width, ch = this.myCanvas.height;
+        const dpr = window.devicePixelRatio || 1;
+        const cw = this.myCanvas.width / dpr;
+        const ch = this.myCanvas.height / dpr;
         const iw = img.width, ih = img.height;
-        const scale = Math.max(cw/iw, ch/ih);
+        const scale = Math.max(cw / iw, ch / ih);
         const tw = iw * scale;
         const th = ih * scale;
         const x = (cw - tw) / 2;
         const y = (ch - th) / 2;
-        this.myCtx.drawImage(img, 0, 0, iw, ih, x, y, tw, th);
+
+        // Canvas temporal para aplicar blur más suave y opacidad
+        const tempCanvas = document.createElement('canvas');
+        tempCanvas.width = cw;
+        tempCanvas.height = ch;
+        const tempCtx = tempCanvas.getContext('2d');
+        tempCtx.drawImage(img, x, y, tw, th);
+
+        this.myCtx.save();
+        this.myCtx.globalAlpha = 0.75; // menos translúcido (más visible)
+        this.myCtx.filter = 'blur(1.5px)'; // blur más suave
+        this.myCtx.drawImage(tempCanvas, 0, 0, cw, ch);
+        this.myCtx.filter = 'none';
+        this.myCtx.globalAlpha = 1;
+        this.myCtx.restore();
+
         this._drawGameElements();
     }
 

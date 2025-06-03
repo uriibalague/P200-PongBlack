@@ -114,14 +114,15 @@ document.addEventListener('DOMContentLoaded', function () {
         ctx.clearRect(0, 0, previewCanvas.width, previewCanvas.height);
 
         if (wallpaperImg) {
+            // Ajusta el wallpaper para cubrir todo el canvas (cover)
             const cw = previewCanvas.width, ch = previewCanvas.height;
             const iw = wallpaperImg.width, ih = wallpaperImg.height;
-            const scale = Math.max(cw/iw, ch/ih);
+            const scale = Math.max(cw / iw, ch / ih);
             const tw = iw * scale;
             const th = ih * scale;
             const x = (cw - tw) / 2;
             const y = (ch - th) / 2;
-            ctx.drawImage(wallpaperImg, 0, 0, iw, ih, x, y, tw, th);
+            ctx.drawImage(wallpaperImg, x, y, tw, th);
         } else {
             ctx.fillStyle = "#181828";
             ctx.fillRect(0, 0, previewCanvas.width, previewCanvas.height);
