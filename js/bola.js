@@ -1,8 +1,8 @@
 class Bola extends Rectangle {
     constructor(puntPosicio, amplada, alcada, color = "#eee") {
         super(puntPosicio, amplada, alcada);
-        this.velocitatx = 0.1;
-        this.velocitaty = 0.1;
+        this.velocitatx = 1;
+        this.velocitaty = 1;
         this.color = color;
     }
 

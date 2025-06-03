@@ -129,8 +129,8 @@ class Joc{
             if (typeof this.palaD.velocitat === "undefined") this.palaD.velocitat = 2;
             if (typeof this.palaE.velocitat === "undefined") this.palaE.velocitat = 2;
 
-            const baseVel = 0.2;
-            const baseBall = 0.2;
+            const baseVel = 1;
+            const baseBall = 1;
             const maxScore = Math.max(this.puntuacioJugador, this.puntuacioMaquina);
             const mult = 1 + Math.floor(maxScore / 5); // x1, x2, x3, ...
 
@@ -210,21 +210,20 @@ class Joc{
                 playLevelUp();
             }
         } else {
-            // Subida de nivell i velocitat en modo máquina (como antes)
             if (
                 this.puntuacioJugador !== this._lastSpeedUpScore &&
                 this.puntuacioJugador % 10 === 0 &&
                 this.puntuacioJugador <= 50 &&
                 this.puntuacioJugador > 0
             ) {
-                const factor = 2.0;
+                const factor = 1.5;
                 const speed = Math.sqrt(this.bola.velocitatx ** 2 + this.bola.velocitaty ** 2) * factor;
                 const angle = Math.atan2(this.bola.velocitaty, this.bola.velocitatx);
                 this.bola.velocitatx = speed * Math.cos(angle);
                 this.bola.velocitaty = speed * Math.sin(angle);
 
-                if (typeof this.palaD.velocitat === "undefined") this.palaD.velocitat = 2;
-                if (typeof this.palaE.velocitat === "undefined") this.palaE.velocitat = 2;
+                if (typeof this.palaD.velocitat === "undefined") this.palaD.velocitat = 1.5;
+                if (typeof this.palaE.velocitat === "undefined") this.palaE.velocitat = 1.5;
                 this.palaD.velocitat *= factor;
                 this.palaE.velocitat *= factor;
 

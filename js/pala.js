@@ -1,10 +1,10 @@
 class Pala extends Rectangle{
     constructor(puntPosicio, amplada, alcada, color = "#eee"){
         super(puntPosicio, amplada, alcada);
-        this.velocitatX = 0.2;
-        this.velocitatY = 0.2;
+        this.velocitatX = 1;
+        this.velocitatY = 1;
         this.color = color;
-        this.velocitat = 0.2;
+        this.velocitat = 1;
     }
 
     mou(x,y){
